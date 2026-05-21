@@ -1,0 +1,68 @@
+/* Design tokens — ported from iOS AppTheme (Sleepr/Theme/Theme.swift).
+   Keep these in sync if the in-app palette changes. */
+
+:root {
+	/* Brand palette */
+	--color-background: #0d0b1e;
+	--color-card: #1a1730;
+	--color-accent: #7c6bad;
+	--color-accent-bright: #9a82d4;
+	--color-accent-deep: #5c4a95;
+	--color-gold: #f0c968;
+	--color-teal: #7fd1b8;
+
+	/* Text */
+	--color-text-primary: #ffffff;
+	--color-text-muted: #b0a8c8;
+	--color-text-dim: rgba(176, 168, 200, 0.6);
+
+	/* Borders & overlays */
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-overlay: rgba(255, 255, 255, 0.04);
+
+	/* Typography */
+	--font-sans:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+		Cantarell, 'Helvetica Neue', sans-serif;
+
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 2rem;
+	--text-4xl: 2.5rem;
+	--text-5xl: 3.25rem;
+	--text-6xl: 4rem;
+
+	--leading-tight: 1.2;
+	--leading-snug: 1.4;
+	--leading-normal: 1.6;
+
+	/* Spacing scale */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-8: 3rem;
+	--space-10: 4rem;
+	--space-12: 6rem;
+	--space-16: 8rem;
+
+	/* Radius */
+	--radius-sm: 6px;
+	--radius-md: 12px;
+	--radius-lg: 20px;
+	--radius-xl: 28px;
+
+	/* Layout */
+	--container-max: 1100px;
+	--container-px: clamp(1rem, 4vw, 2rem);
+
+	/* Effects */
+	--shadow-glow: 0 8px 32px -8px rgba(124, 107, 173, 0.5);
+	--shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	canonical?: string;
+}
+
+const {
+	title,
+	description = 'Privacy-first sleep tracker for iPhone. On-device audio analysis — your sleep data never leaves your phone.',
+	canonical,
+} = Astro.props;
+
+const siteName = 'Sleepr';
+const fullTitle = title.startsWith(siteName) ? title : `${title} · ${siteName}`;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'https://sleeprapp.org').toString();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+
+		<link rel="icon" type="image/png" sizes="any" href="/sleepr-icon.png" />
+		<link rel="apple-touch-icon" href="/sleepr-icon.png" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={siteName} />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content="/sleepr-icon.png" />
+
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content="/sleepr-icon.png" />
+
+		<meta name="theme-color" content="#0d0b1e" />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">Skip to content</a>
+		<Nav />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer />
+
+		<style>
+			.skip-link {
+				position: absolute;
+				left: -9999px;
+				top: 0;
+				background: var(--color-card);
+				color: var(--color-text-primary);
+				padding: var(--space-3) var(--space-4);
+				border-radius: var(--radius-md);
+				z-index: 100;
+			}
+			.skip-link:focus {
+				left: var(--space-4);
+				top: var(--space-4);
+			}
+		</style>
+	</body>
+</html>

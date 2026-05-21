@@ -1,0 +1,140 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container footer-inner">
+		<div class="brand-block">
+			<img src="/sleepr-icon.png" alt="" width="40" height="40" />
+			<div>
+				<p class="brand-name">Sleepr — AI Sleep Tracker</p>
+				<p class="meta">
+					Built by Mads Media · CVR 46062299 · Valby, Denmark
+				</p>
+			</div>
+		</div>
+
+		<div class="links">
+			<div class="col">
+				<p class="col-title">Product</p>
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li>
+						<a
+							href="https://apps.apple.com/app/sleepr-ai-sleep-tracker/id6764422192"
+							rel="noopener">App Store</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col">
+				<p class="col-title">Legal</p>
+				<ul>
+					<li><a href="/privacy">Privacy Policy</a></li>
+					<li><a href="/terms">Terms of Service</a></li>
+				</ul>
+			</div>
+			<div class="col">
+				<p class="col-title">Contact</p>
+				<ul>
+					<li>
+						<a href="mailto:sleeprsupport@gmail.com">sleeprsupport@gmail.com</a>
+					</li>
+					<li>
+						<a href="mailto:team@sleeprapp.org">team@sleeprapp.org</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<p class="copyright">© {year} Mads Media. All rights reserved.</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		margin-top: var(--space-16);
+		padding-block: var(--space-10) var(--space-6);
+		border-top: 1px solid var(--color-border);
+		background: var(--color-background);
+	}
+
+	.footer-inner {
+		display: grid;
+		gap: var(--space-8);
+	}
+
+	.brand-block {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	.brand-block img {
+		border-radius: 10px;
+	}
+
+	.brand-name {
+		margin: 0;
+		font-weight: 600;
+		color: var(--color-text-primary);
+	}
+
+	.meta {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-text-dim);
+	}
+
+	.links {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-6);
+	}
+
+	.col-title {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-text-primary);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.col ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	.col a {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.col a:hover,
+	.col a:focus-visible {
+		color: var(--color-text-primary);
+	}
+
+	.copyright {
+		margin: 0;
+		padding-top: var(--space-6);
+		border-top: 1px solid var(--color-border);
+		font-size: var(--text-xs);
+		color: var(--color-text-dim);
+	}
+
+	@media (max-width: 640px) {
+		.links {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.links {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

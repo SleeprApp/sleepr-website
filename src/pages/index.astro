@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppStoreBadge from '../components/AppStoreBadge.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+
+const features = [
+	{
+		title: 'Private by design',
+		body: 'On-device microphone analysis. Audio is processed in real time on your iPhone and never uploaded to any server.',
+	},
+	{
+		title: 'Smart event detection',
+		body: 'Detects snoring, talking, coughs, and movement throughout the night — without sending audio anywhere.',
+	},
+	{
+		title: 'Somnus, your AI sleep coach',
+		body: 'Chat with an AI coach that understands your patterns and helps you build better habits, night after night.',
+	},
+	{
+		title: 'Trends, streaks, and friends',
+		body: 'Watch sleep trends across weeks, months, and years. Climb leagues with friends as your streak grows.',
+	},
+];
+---
+
+<BaseLayout title="Sleepr — privacy-first AI sleep tracking">
+	<section class="hero container">
+		<div class="hero-copy">
+			<p class="eyebrow">For iPhone</p>
+			<h1>
+				Sleep better.<br />
+				<span class="accent">Privately.</span>
+			</h1>
+			<p class="lead">
+				Sleepr analyses your sleep on-device with AI. Your audio never leaves
+				your phone — and you wake up with a clearer picture of how you slept.
+			</p>
+			<div class="cta-row">
+				<AppStoreBadge size="lg" />
+				<a class="secondary" href="#features">See what it does ↓</a>
+			</div>
+		</div>
+
+		<div class="hero-art" aria-hidden="true">
+			<div class="moon"></div>
+			<div class="glow"></div>
+		</div>
+	</section>
+
+	<section class="usp container">
+		<p class="usp-tag">The Sleepr difference</p>
+		<h2>
+			Your microphone stays
+			<span class="accent">on your phone.</span>
+		</h2>
+		<p class="usp-body">
+			Most sleep apps upload your audio for analysis. Sleepr doesn't. Every
+			snore, cough, and movement is processed in real time on-device — there is
+			no audio recording to upload, leak, or subpoena. The only thing leaving
+			your phone is the sleep summary you choose to sync.
+		</p>
+	</section>
+
+	<section class="features container" id="features">
+		<h2 class="section-title">Built for better nights</h2>
+		<div class="grid">
+			{
+				features.map(({ title, body }) => (
+					<article class="card">
+						<h3>{title}</h3>
+						<p>{body}</p>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="signup container">
+		<NewsletterForm />
+	</section>
+
+	<section class="download container">
+		<h2>Ready to sleep better?</h2>
+		<p>Free to download. Sleepr Pro unlocks the AI coach and advanced trends.</p>
+		<AppStoreBadge size="lg" />
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		display: grid;
+		gap: var(--space-8);
+		padding-block: var(--space-12) var(--space-10);
+	}
+
+	@media (min-width: 900px) {
+		.hero {
+			grid-template-columns: 1.2fr 1fr;
+			align-items: center;
+			gap: var(--space-10);
+			padding-block: var(--space-16) var(--space-12);
+		}
+	}
+
+	.eyebrow {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-accent-bright);
+	}
+
+	.hero h1 {
+		font-size: clamp(2.5rem, 7vw, 4.5rem);
+		margin-bottom: var(--space-5);
+	}
+
+	.accent {
+		background: linear-gradient(
+			135deg,
+			var(--color-accent-bright),
+			var(--color-accent)
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.lead {
+		font-size: var(--text-lg);
+		max-width: 36rem;
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-6);
+	}
+
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-5);
+	}
+
+	.secondary {
+		font-weight: 500;
+		color: var(--color-text-muted);
+	}
+
+	.secondary:hover,
+	.secondary:focus-visible {
+		color: var(--color-text-primary);
+	}
+
+	/* Hero art — a soft moon-and-glow placeholder until we have proper product imagery */
+	.hero-art {
+		position: relative;
+		min-height: 320px;
+		display: grid;
+		place-items: center;
+	}
+
+	.moon {
+		position: relative;
+		width: clamp(180px, 28vw, 280px);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background:
+			radial-gradient(
+				circle at 35% 30%,
+				#f5efe6 0%,
+				#cdc4d8 45%,
+				#7c6bad 100%
+			);
+		box-shadow:
+			0 0 80px 10px rgba(124, 107, 173, 0.45),
+			0 0 200px 40px rgba(124, 107, 173, 0.25);
+		z-index: 1;
+	}
+
+	.glow {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(
+				circle at 50% 50%,
+				rgba(124, 107, 173, 0.18) 0%,
+				transparent 60%
+			);
+		filter: blur(40px);
+	}
+
+	.usp {
+		padding-block: var(--space-10);
+		max-width: 60ch;
+	}
+
+	.usp-tag {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-teal);
+	}
+
+	.usp h2 {
+		font-size: clamp(1.75rem, 4vw, 2.5rem);
+	}
+
+	.usp-body {
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+	}
+
+	.section-title {
+		text-align: center;
+		margin-bottom: var(--space-8);
+	}
+
+	.features {
+		padding-block: var(--space-10);
+	}
+
+	.grid {
+		display: grid;
+		gap: var(--space-5);
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	}
+
+	.card {
+		padding: var(--space-6);
+		background: var(--color-card);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		transition:
+			transform 160ms ease,
+			border-color 160ms ease;
+	}
+
+	.card:hover {
+		transform: translateY(-2px);
+		border-color: rgba(154, 130, 212, 0.4);
+	}
+
+	.card h3 {
+		margin-bottom: var(--space-2);
+		color: var(--color-text-primary);
+	}
+
+	.card p {
+		margin: 0;
+	}
+
+	.signup {
+		padding-block: var(--space-10);
+	}
+
+	.download {
+		text-align: center;
+		padding-block: var(--space-12);
+		display: grid;
+		gap: var(--space-4);
+		place-items: center;
+	}
+
+	.download h2 {
+		margin: 0;
+	}
+
+	.download p {
+		margin: 0;
+	}
+</style>

@@ -1,0 +1,213 @@
+---
+interface Props {
+	heading?: string;
+	pitch?: string;
+}
+
+const {
+	heading = 'Stay in the loop',
+	pitch = "A short email about once a month — new features, sleep research we're reading, behind-the-scenes notes. No spam, unsubscribe anytime.",
+} = Astro.props;
+---
+
+<section class="newsletter">
+	<div class="copy">
+		<h2>{heading}</h2>
+		<p>{pitch}</p>
+	</div>
+
+	<form
+		class="form"
+		method="post"
+		action="/api/newsletter"
+		data-newsletter-form>
+		<label class="sr-only" for="newsletter-email">Email address</label>
+		<input
+			id="newsletter-email"
+			type="email"
+			name="email"
+			required
+			autocomplete="email"
+			placeholder="you@example.com"
+		/>
+		<button type="submit">Subscribe</button>
+
+		<p class="status" data-status role="status" aria-live="polite"></p>
+	</form>
+</section>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
+	const status = form?.querySelector<HTMLParagraphElement>('[data-status]');
+
+	if (form && status) {
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			const button = form.querySelector<HTMLButtonElement>(
+				'button[type="submit"]',
+			);
+			const formData = new FormData(form);
+			const email = String(formData.get('email') ?? '').trim();
+
+			if (!email) return;
+
+			status.textContent = '';
+			status.dataset.state = '';
+			button?.setAttribute('disabled', 'disabled');
+
+			try {
+				const response = await fetch('/api/newsletter', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email }),
+				});
+
+				const payload = (await response
+					.json()
+					.catch(() => ({}))) as { message?: string; error?: string };
+
+				if (response.ok) {
+					form.reset();
+					status.dataset.state = 'ok';
+					status.textContent =
+						payload.message ??
+						"You're on the list. Check your inbox for a welcome email.";
+				} else {
+					status.dataset.state = 'error';
+					status.textContent =
+						payload.error ??
+						"Something went wrong. Please try again in a minute.";
+				}
+			} catch {
+				status.dataset.state = 'error';
+				status.textContent =
+					"Network error. Please try again when you're back online.";
+			} finally {
+				button?.removeAttribute('disabled');
+			}
+		});
+	}
+</script>
+
+<style>
+	.newsletter {
+		display: grid;
+		gap: var(--space-6);
+		padding: var(--space-8);
+		background: var(--color-card);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+	}
+
+	@media (min-width: 768px) {
+		.newsletter {
+			grid-template-columns: 1.1fr 1fr;
+			align-items: center;
+			gap: var(--space-8);
+		}
+	}
+
+	.copy h2 {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-2xl);
+	}
+
+	.copy p {
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+
+	.form {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--space-3);
+		align-items: center;
+	}
+
+	.form input {
+		grid-column: 1 / 2;
+		width: 100%;
+		padding: var(--space-3) var(--space-4);
+		font-family: inherit;
+		font-size: var(--text-base);
+		color: var(--color-text-primary);
+		background: rgba(0, 0, 0, 0.3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		transition:
+			border-color 120ms ease,
+			background 120ms ease;
+	}
+
+	.form input::placeholder {
+		color: var(--color-text-dim);
+	}
+
+	.form input:focus-visible {
+		outline: none;
+		border-color: var(--color-accent-bright);
+		background: rgba(0, 0, 0, 0.45);
+	}
+
+	.form button {
+		grid-column: 2 / 3;
+		padding: var(--space-3) var(--space-5);
+		font-weight: 600;
+		font-size: var(--text-base);
+		color: var(--color-background);
+		background: var(--color-text-primary);
+		border: none;
+		border-radius: var(--radius-md);
+		transition:
+			background 120ms ease,
+			transform 120ms ease;
+	}
+
+	.form button:hover:not(:disabled),
+	.form button:focus-visible:not(:disabled) {
+		background: var(--color-accent-bright);
+		color: var(--color-text-primary);
+	}
+
+	.form button:disabled {
+		opacity: 0.6;
+		cursor: progress;
+	}
+
+	.status {
+		grid-column: 1 / -1;
+		margin: 0;
+		font-size: var(--text-sm);
+		min-height: 1.25em;
+		color: var(--color-text-muted);
+	}
+
+	.status[data-state='ok'] {
+		color: var(--color-teal);
+	}
+
+	.status[data-state='error'] {
+		color: #f08a8a;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
+
+	@media (max-width: 520px) {
+		.form {
+			grid-template-columns: 1fr;
+		}
+		.form button {
+			grid-column: 1 / -1;
+		}
+	}
+</style>
