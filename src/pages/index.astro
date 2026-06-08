@@ -3,6 +3,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AppStoreBadge from '../components/AppStoreBadge.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 
+const showcases = [
+	{
+		tag: 'Sleep stages',
+		title: 'See every stage of your night',
+		body: 'A clear timeline of Awake, REM, Light, and Deep — alongside your sleep score, time asleep, and efficiency. Understand your nightly patterns and wake up refreshed.',
+		image: '/img/track-stages.jpg',
+		alt: 'Sleepr sleep-stages overview showing sleep score, time asleep, efficiency, and a stage timeline',
+		reverse: false,
+	},
+	{
+		tag: 'Sleep recordings',
+		title: 'Hear what happens while you sleep',
+		body: 'Sleepr listens on-device and surfaces the moments that matter — snore clips, sleep talking, and quiet nights. Replay the night events and discover what you never knew.',
+		image: '/img/snoring.jpg',
+		alt: 'Sleepr sleep-recordings panel with snore time, longest snore, and replayable night events',
+		reverse: true,
+	},
+	{
+		tag: 'Daily routine',
+		title: 'Build better habits, one night at a time',
+		body: 'Small, science-backed habits add up. Track caffeine cut-offs, morning sunlight, screen-free wind-downs, and a consistent bedtime — then watch your streak grow.',
+		image: '/img/routine.jpg',
+		alt: 'Sleepr daily routine checklist of sleep habits with progress',
+		reverse: false,
+	},
+	{
+		tag: 'Smart alarm',
+		title: 'Wake up at the right moment',
+		body: 'Set a smart wake window and Sleepr nudges you awake during a lighter phase of your cycle — so mornings feel gentle instead of jarring.',
+		image: '/img/smart-alarm.jpg',
+		alt: 'Sleepr smart alarm screen with a wake-window slider and time picker',
+		reverse: true,
+	},
+];
+
 const features = [
 	{
 		title: 'Private by design',
@@ -17,7 +52,7 @@ const features = [
 		body: 'Chat with an AI coach that understands your patterns and helps you build better habits, night after night.',
 	},
 	{
-		title: 'Trends, streaks, and friends',
+		title: 'Trends, streaks & friends',
 		body: 'Watch sleep trends across weeks, months, and years. Climb leagues with friends as your streak grows.',
 	},
 ];
@@ -25,9 +60,9 @@ const features = [
 
 <BaseLayout title="Sleepr — privacy-first AI sleep tracking">
 	<section class="hero container">
-		<div class="hero-copy">
-			<p class="eyebrow">For iPhone</p>
-			<h1>
+		<div class="hero-copy reveal">
+			<p class="eyebrow">For iPhone · Private by design</p>
+			<h1 class="display">
 				Sleep better.<br />
 				<span class="accent">Privately.</span>
 			</h1>
@@ -39,34 +74,73 @@ const features = [
 				<AppStoreBadge size="lg" />
 				<a class="secondary" href="#features">See what it does ↓</a>
 			</div>
+			<ul class="hero-trust">
+				<li>On-device AI</li>
+				<li>No audio uploads</li>
+				<li>Free to download</li>
+			</ul>
 		</div>
 
-		<div class="hero-art" aria-hidden="true">
-			<div class="moon"></div>
-			<div class="glow"></div>
+		<div class="hero-art reveal" style="--reveal-delay: 120ms">
+			<div class="phone-glow" aria-hidden="true"></div>
+			<img
+				class="phone phone-float"
+				src="/img/phone-overview.png"
+				alt="Sleepr app open on an iPhone, showing the sleep overview with sleep score and stage graph"
+				width="500"
+				height="750"
+				fetchpriority="high"
+			/>
 		</div>
 	</section>
 
-	<section class="usp container">
-		<p class="usp-tag">The Sleepr difference</p>
-		<h2>
-			Your microphone stays
-			<span class="accent">on your phone.</span>
-		</h2>
-		<p class="usp-body">
-			Most sleep apps upload your audio for analysis. Sleepr doesn't. Every
-			snore, cough, and movement is processed in real time on-device — there is
-			no audio recording to upload, leak, or subpoena. The only thing leaving
-			your phone is the sleep summary you choose to sync.
-		</p>
+	<section class="showcases container" id="features">
+		{
+			showcases.map(({ tag, title, body, image, alt, reverse }) => (
+				<article class={`showcase reveal ${reverse ? 'is-reverse' : ''}`}>
+					<div class="showcase-art">
+						<div class="frame-glow" aria-hidden="true" />
+						<img
+							class="frame"
+							src={image}
+							alt={alt}
+							width="500"
+							height="700"
+							loading="lazy"
+						/>
+					</div>
+					<div class="showcase-copy">
+						<p class="usp-tag">{tag}</p>
+						<h2 class="display">{title}</h2>
+						<p>{body}</p>
+					</div>
+				</article>
+			))
+		}
 	</section>
 
-	<section class="features container" id="features">
-		<h2 class="section-title">Built for better nights</h2>
+	<section class="usp container reveal">
+		<div class="usp-band">
+			<p class="usp-tag">The Sleepr difference</p>
+			<h2 class="display">
+				Your microphone stays
+				<span class="accent">on your phone.</span>
+			</h2>
+			<p class="usp-body">
+				Most sleep apps upload your audio for analysis. Sleepr doesn't. Every
+				snore, cough, and movement is processed in real time on-device — there is
+				no audio recording to upload, leak, or subpoena. The only thing leaving
+				your phone is the sleep summary you choose to sync.
+			</p>
+		</div>
+	</section>
+
+	<section class="features container">
+		<h2 class="section-title display reveal">Built for better nights</h2>
 		<div class="grid">
 			{
-				features.map(({ title, body }) => (
-					<article class="card">
+				features.map(({ title, body }, i) => (
+					<article class="card reveal" style={`--reveal-delay: ${i * 80}ms`}>
 						<h3>{title}</h3>
 						<p>{body}</p>
 					</article>
@@ -75,18 +149,37 @@ const features = [
 		</div>
 	</section>
 
-	<section class="signup container">
+	<section class="signup container reveal">
 		<NewsletterForm />
 	</section>
 
 	<section class="download container">
-		<h2>Ready to sleep better?</h2>
-		<p>Free to download. Sleepr Pro unlocks the AI coach and advanced trends.</p>
-		<AppStoreBadge size="lg" />
+		<div class="download-inner reveal">
+			<div class="download-copy">
+				<h2 class="display">Ready to sleep better?</h2>
+				<p>
+					Free to download. Sleepr Pro unlocks the AI coach and advanced
+					trends.
+				</p>
+				<AppStoreBadge size="lg" />
+			</div>
+			<div class="download-art" aria-hidden="true">
+				<div class="phone-glow"></div>
+				<img
+					class="phone phone-float"
+					src="/img/phone-stats.png"
+					alt=""
+					width="420"
+					height="525"
+					loading="lazy"
+				/>
+			</div>
+		</div>
 	</section>
 </BaseLayout>
 
 <style>
+	/* ---------- Hero ---------- */
 	.hero {
 		display: grid;
 		gap: var(--space-8);
@@ -95,7 +188,7 @@ const features = [
 
 	@media (min-width: 900px) {
 		.hero {
-			grid-template-columns: 1.2fr 1fr;
+			grid-template-columns: 1.05fr 0.95fr;
 			align-items: center;
 			gap: var(--space-10);
 			padding-block: var(--space-16) var(--space-12);
@@ -103,7 +196,7 @@ const features = [
 	}
 
 	.eyebrow {
-		margin: 0 0 var(--space-3);
+		margin: 0 0 var(--space-4);
 		font-size: var(--text-sm);
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -112,7 +205,7 @@ const features = [
 	}
 
 	.hero h1 {
-		font-size: clamp(2.5rem, 7vw, 4.5rem);
+		font-size: clamp(3rem, 8vw, 5.25rem);
 		margin-bottom: var(--space-5);
 	}
 
@@ -151,47 +244,149 @@ const features = [
 		color: var(--color-text-primary);
 	}
 
-	/* Hero art — a soft moon-and-glow placeholder until we have proper product imagery */
-	.hero-art {
+	.hero-trust {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-5);
+		margin: var(--space-6) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.hero-trust li {
 		position: relative;
-		min-height: 320px;
+		padding-left: var(--space-4);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.hero-trust li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--color-teal);
+		box-shadow: 0 0 8px var(--color-teal);
+	}
+
+	/* ---------- Phone art ---------- */
+	.hero-art,
+	.download-art {
+		position: relative;
 		display: grid;
 		place-items: center;
 	}
 
-	.moon {
+	.phone {
 		position: relative;
-		width: clamp(180px, 28vw, 280px);
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background:
-			radial-gradient(
-				circle at 35% 30%,
-				#f5efe6 0%,
-				#cdc4d8 45%,
-				#7c6bad 100%
-			);
-		box-shadow:
-			0 0 80px 10px rgba(124, 107, 173, 0.45),
-			0 0 200px 40px rgba(124, 107, 173, 0.25);
 		z-index: 1;
+		width: clamp(240px, 34vw, 380px);
+		height: auto;
+		filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.55));
 	}
 
-	.glow {
+	.phone-glow {
 		position: absolute;
 		inset: 0;
-		background:
-			radial-gradient(
-				circle at 50% 50%,
-				rgba(124, 107, 173, 0.18) 0%,
-				transparent 60%
-			);
-		filter: blur(40px);
+		z-index: 0;
+		background: radial-gradient(
+			circle at 50% 45%,
+			rgba(124, 107, 173, 0.5) 0%,
+			rgba(124, 107, 173, 0.18) 35%,
+			transparent 68%
+		);
+		filter: blur(20px);
 	}
 
-	.usp {
-		padding-block: var(--space-10);
-		max-width: 60ch;
+	.phone-float {
+		animation: float 7s ease-in-out infinite;
+	}
+
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-14px);
+		}
+	}
+
+	/* ---------- Showcase rows ---------- */
+	.showcases {
+		display: grid;
+		gap: var(--space-12);
+		padding-block: var(--space-12);
+	}
+
+	.showcase {
+		display: grid;
+		gap: var(--space-8);
+		align-items: center;
+	}
+
+	@media (min-width: 860px) {
+		.showcase {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--space-10);
+		}
+		.showcase.is-reverse .showcase-art {
+			order: 2;
+		}
+	}
+
+	.showcase-art {
+		position: relative;
+		display: grid;
+		place-items: center;
+	}
+
+	.frame {
+		position: relative;
+		z-index: 1;
+		width: min(100%, 440px);
+		height: auto;
+		border-radius: var(--radius-xl);
+		border: 1px solid var(--glass-border);
+		box-shadow: var(--shadow-float);
+		transform: perspective(1200px) rotateY(4deg);
+		transition: transform 500ms var(--ease-out);
+	}
+
+	.showcase.is-reverse .frame {
+		transform: perspective(1200px) rotateY(-4deg);
+	}
+
+	.showcase-art:hover .frame {
+		transform: perspective(1200px) rotateY(0deg) translateY(-6px);
+	}
+
+	.frame-glow {
+		position: absolute;
+		inset: 8% 12%;
+		z-index: 0;
+		background: radial-gradient(
+			circle at 50% 40%,
+			rgba(124, 107, 173, 0.45),
+			transparent 70%
+		);
+		filter: blur(36px);
+	}
+
+	.showcase-copy h2 {
+		font-size: clamp(1.9rem, 4vw, 2.85rem);
+		margin-bottom: var(--space-4);
+	}
+
+	.showcase-copy p {
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+		margin: 0;
+		max-width: 34rem;
 	}
 
 	.usp-tag {
@@ -203,17 +398,38 @@ const features = [
 		color: var(--color-teal);
 	}
 
-	.usp h2 {
-		font-size: clamp(1.75rem, 4vw, 2.5rem);
+	/* ---------- USP band ---------- */
+	.usp {
+		padding-block: var(--space-8);
+	}
+
+	.usp-band {
+		max-width: 60ch;
+		margin-inline: auto;
+		text-align: center;
+		padding: var(--space-10) var(--space-8);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-xl);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+		box-shadow: var(--shadow-card);
+	}
+
+	.usp-band h2 {
+		font-size: clamp(1.9rem, 4.5vw, 3rem);
 	}
 
 	.usp-body {
 		font-size: var(--text-lg);
 		color: var(--color-text-muted);
+		margin: 0;
 	}
 
+	/* ---------- Features grid ---------- */
 	.section-title {
 		text-align: center;
+		font-size: clamp(1.9rem, 4vw, 2.75rem);
 		margin-bottom: var(--space-8);
 	}
 
@@ -229,17 +445,21 @@ const features = [
 
 	.card {
 		padding: var(--space-6);
-		background: var(--color-card);
-		border: 1px solid var(--color-border);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
 		border-radius: var(--radius-lg);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
 		transition:
-			transform 160ms ease,
-			border-color 160ms ease;
+			transform 220ms var(--ease-out),
+			border-color 220ms ease,
+			box-shadow 220ms ease;
 	}
 
 	.card:hover {
-		transform: translateY(-2px);
-		border-color: rgba(154, 130, 212, 0.4);
+		transform: translateY(-4px);
+		border-color: rgba(154, 130, 212, 0.45);
+		box-shadow: var(--shadow-card);
 	}
 
 	.card h3 {
@@ -251,23 +471,51 @@ const features = [
 		margin: 0;
 	}
 
+	/* ---------- Signup + download ---------- */
 	.signup {
 		padding-block: var(--space-10);
 	}
 
 	.download {
-		text-align: center;
 		padding-block: var(--space-12);
+	}
+
+	.download-inner {
 		display: grid;
-		gap: var(--space-4);
-		place-items: center;
+		gap: var(--space-8);
+		align-items: center;
+		padding: var(--space-10) var(--space-8);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-xl);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+		box-shadow: var(--shadow-card);
 	}
 
-	.download h2 {
-		margin: 0;
+	@media (min-width: 820px) {
+		.download-inner {
+			grid-template-columns: 1.2fr 0.8fr;
+		}
 	}
 
-	.download p {
-		margin: 0;
+	.download-copy h2 {
+		margin: 0 0 var(--space-3);
+		font-size: clamp(1.9rem, 4vw, 2.75rem);
+	}
+
+	.download-copy p {
+		margin: 0 0 var(--space-6);
+		font-size: var(--text-lg);
+	}
+
+	.download-art .phone {
+		width: clamp(200px, 30vw, 300px);
+	}
+
+	@media (max-width: 819px) {
+		.download-art {
+			display: none;
+		}
 	}
 </style>

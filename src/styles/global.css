@@ -18,10 +18,58 @@ body {
 	font-size: var(--text-base);
 	line-height: var(--leading-normal);
 	color: var(--color-text-primary);
-	background: var(--color-background);
+	background:
+		radial-gradient(
+			1200px 800px at 50% -10%,
+			rgba(92, 74, 149, 0.35) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			900px 600px at 100% 20%,
+			rgba(124, 107, 173, 0.18) 0%,
+			transparent 55%
+		),
+		radial-gradient(
+			900px 600px at 0% 40%,
+			rgba(124, 107, 173, 0.16) 0%,
+			transparent 55%
+		),
+		var(--color-background);
+	background-attachment: fixed;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
+	overflow-x: hidden;
+}
+
+/* Fixed star-field that sits behind all content */
+.starfield {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-repeat: repeat;
+	background-image:
+		radial-gradient(1.4px 1.4px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+		radial-gradient(1.2px 1.2px at 75% 18%, rgba(255, 255, 255, 0.7), transparent),
+		radial-gradient(1px 1px at 50% 60%, rgba(255, 255, 255, 0.6), transparent),
+		radial-gradient(1.6px 1.6px at 85% 70%, rgba(214, 200, 245, 0.9), transparent),
+		radial-gradient(1px 1px at 12% 80%, rgba(255, 255, 255, 0.5), transparent),
+		radial-gradient(1.3px 1.3px at 35% 12%, rgba(255, 255, 255, 0.7), transparent),
+		radial-gradient(1px 1px at 65% 85%, rgba(255, 255, 255, 0.5), transparent),
+		radial-gradient(1.5px 1.5px at 90% 40%, rgba(255, 255, 255, 0.8), transparent);
+	background-size: 700px 700px, 600px 600px, 500px 500px, 800px 800px,
+		550px 550px, 650px 650px, 720px 720px, 480px 480px;
+	animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+	from {
+		opacity: 0.55;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 h1,
@@ -85,6 +133,14 @@ button {
 	padding-inline: var(--container-px);
 }
 
+/* Display headings — elegant high-contrast serif, matching the app marketing */
+.display {
+	font-family: var(--font-display);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.04;
+}
+
 /* Mobile typography scale-down */
 @media (max-width: 640px) {
 	h1 {
@@ -93,4 +149,44 @@ button {
 	h2 {
 		font-size: var(--text-2xl);
 	}
+}
+
+/* Scroll-reveal — elements fade + rise into view as they enter the viewport */
+.reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition:
+		opacity 700ms var(--ease-out),
+		transform 700ms var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+	will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.reveal {
+		opacity: 1;
+		transform: none;
+	}
+
+	.starfield {
+		animation: none;
+	}
+}
+
+html {
+	scroll-behavior: smooth;
 }
