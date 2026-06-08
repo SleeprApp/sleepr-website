@@ -1,0 +1,462 @@
+---
+// On-device machine-learning section — Sleepr's own model classifies sleep
+// sounds locally, with a privacy-first framing. Illustrations are inline SVG.
+
+const points = [
+	{
+		title: 'A model built for sleep',
+		body: "Sleepr's own machine-learning model was trained to recognise the specific sounds of a night — snoring, sleep talking, coughing, and movement — not generic audio.",
+	},
+	{
+		title: 'Inference on your device',
+		body: "Every sound is classified in real time by your iPhone's Neural Engine. No servers, no round-trips — it even works in airplane mode.",
+	},
+	{
+		title: 'Audio is never stored or sent',
+		body: 'The microphone stream is analysed and immediately discarded. There is no recording to upload, leak, or subpoena — only the labels you see.',
+	},
+];
+
+const promises = [
+	'No audio recordings ever leave your iPhone',
+	'No account required to start tracking',
+	'No third-party analytics on your sleep data',
+	'Open about exactly what syncs — and only when you choose',
+];
+---
+
+<section class="ai container">
+	<div class="ai-head reveal">
+		<p class="ai-tag">On-device intelligence</p>
+		<h2 class="display">
+			Your own sleep AI,<br />
+			<span class="accent">running on your iPhone.</span>
+		</h2>
+		<p class="ai-lead">
+			Sleepr listens with a custom machine-learning model that identifies the
+			sounds and patterns of your night — and it all happens locally, on your
+			device. Your audio never touches a server.
+		</p>
+	</div>
+
+	<!-- Illustration: sound → on-device model → labelled events, nothing uploaded -->
+	<div class="ai-viz reveal" style="--reveal-delay: 120ms" aria-hidden="true">
+		<div class="device">
+			<span class="device-tag">
+				<svg viewBox="0 0 24 24" class="lock" fill="none" stroke="currentColor"
+					stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="5" y="11" width="14" height="9" rx="2"></rect>
+					<path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+				</svg>
+				On device
+			</span>
+
+			<p class="stage-label">Your night's sounds</p>
+			<div class="waveform">
+				{
+					Array.from({ length: 28 }).map((_, i) => (
+						<span style={`--i:${i}`} />
+					))
+				}
+			</div>
+
+			<div class="flow-arrow">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 4v16"></path>
+					<path d="m6 14 6 6 6-6"></path>
+				</svg>
+			</div>
+
+			<p class="stage-label">Sleepr's on-device model</p>
+			<svg class="net" viewBox="0 0 240 110" fill="none">
+				<g class="net-edges" stroke="url(#netGrad)" stroke-width="1.4">
+					<line x1="32" y1="55" x2="108" y2="24"></line>
+					<line x1="32" y1="55" x2="108" y2="55"></line>
+					<line x1="32" y1="55" x2="108" y2="86"></line>
+					<line x1="108" y1="24" x2="184" y2="38"></line>
+					<line x1="108" y1="24" x2="184" y2="72"></line>
+					<line x1="108" y1="55" x2="184" y2="38"></line>
+					<line x1="108" y1="55" x2="184" y2="72"></line>
+					<line x1="108" y1="86" x2="184" y2="38"></line>
+					<line x1="108" y1="86" x2="184" y2="72"></line>
+					<line x1="184" y1="38" x2="216" y2="55"></line>
+					<line x1="184" y1="72" x2="216" y2="55"></line>
+				</g>
+				<g class="net-nodes" fill="url(#netGrad)">
+					<circle cx="32" cy="55" r="6"></circle>
+					<circle cx="108" cy="24" r="6" style="--n:0"></circle>
+					<circle cx="108" cy="55" r="6" style="--n:1"></circle>
+					<circle cx="108" cy="86" r="6" style="--n:2"></circle>
+					<circle cx="184" cy="38" r="6" style="--n:3"></circle>
+					<circle cx="184" cy="72" r="6" style="--n:4"></circle>
+					<circle cx="216" cy="55" r="6.5"></circle>
+				</g>
+				<defs>
+					<linearGradient id="netGrad" x1="0" y1="0" x2="240" y2="0"
+						gradientUnits="userSpaceOnUse">
+						<stop stop-color="#9a82d4"></stop>
+						<stop offset="1" stop-color="#7fd1b8"></stop>
+					</linearGradient>
+				</defs>
+			</svg>
+
+			<div class="flow-arrow">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 4v16"></path>
+					<path d="m6 14 6 6 6-6"></path>
+				</svg>
+			</div>
+
+			<p class="stage-label">Detected events</p>
+			<div class="chips">
+				<span>😴 Snore</span>
+				<span>💬 Sleep talk</span>
+				<span>🤧 Cough</span>
+				<span>🌙 Movement</span>
+			</div>
+		</div>
+
+		<div class="no-cloud">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+				stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.5 9 4.5 4.5 0 0 0 6 18"></path>
+				<line x1="4" y1="3.5" x2="20.5" y2="20.5"></line>
+			</svg>
+			<span>Nothing uploaded</span>
+		</div>
+	</div>
+
+	<ul class="ai-points">
+		{
+			points.map(({ title, body }, i) => (
+				<li class="ai-point reveal" style={`--reveal-delay: ${i * 80}ms`}>
+					<h3>{title}</h3>
+					<p>{body}</p>
+				</li>
+			))
+		}
+	</ul>
+
+	<div class="promise reveal">
+		<p class="promise-title">Our privacy promise</p>
+		<ul>
+			{
+				promises.map((p) => (
+					<li>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M20 6 9 17l-5-5"></path>
+						</svg>
+						{p}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.ai {
+		padding-block: var(--space-12);
+		display: grid;
+		gap: var(--space-8);
+	}
+
+	.ai-head {
+		max-width: 46rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.ai-tag {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-teal);
+	}
+
+	.ai-head h2 {
+		font-size: clamp(1.9rem, 4.5vw, 3rem);
+		margin-bottom: var(--space-4);
+	}
+
+	.accent {
+		background: linear-gradient(
+			135deg,
+			var(--color-accent-bright),
+			var(--color-teal)
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.ai-lead {
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	/* ---------- Illustration ---------- */
+	.ai-viz {
+		position: relative;
+		display: grid;
+		place-items: center;
+		padding-block: var(--space-4);
+	}
+
+	.device {
+		position: relative;
+		width: min(100%, 420px);
+		display: grid;
+		gap: var(--space-3);
+		justify-items: center;
+		padding: var(--space-8) var(--space-6) var(--space-6);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-xl);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+		box-shadow:
+			var(--shadow-card),
+			0 0 60px -20px rgba(124, 107, 173, 0.6);
+	}
+
+	.device-tag {
+		position: absolute;
+		top: var(--space-4);
+		right: var(--space-4);
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 4px 10px;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		color: var(--color-teal);
+		background: rgba(127, 209, 184, 0.12);
+		border: 1px solid rgba(127, 209, 184, 0.3);
+		border-radius: 999px;
+	}
+
+	.device-tag .lock {
+		width: 13px;
+		height: 13px;
+	}
+
+	.stage-label {
+		margin: 0;
+		font-size: var(--text-xs);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-text-dim);
+	}
+
+	.waveform {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 3px;
+		height: 44px;
+		width: 100%;
+	}
+
+	.waveform span {
+		flex: 1;
+		max-width: 5px;
+		border-radius: 999px;
+		background: linear-gradient(
+			to top,
+			var(--color-accent),
+			var(--color-accent-bright)
+		);
+		height: 30%;
+		animation: wave 1.4s ease-in-out infinite;
+		animation-delay: calc(var(--i) * -0.08s);
+	}
+
+	@keyframes wave {
+		0%,
+		100% {
+			height: 22%;
+			opacity: 0.55;
+		}
+		50% {
+			height: 100%;
+			opacity: 1;
+		}
+	}
+
+	.flow-arrow {
+		color: var(--color-accent-bright);
+		opacity: 0.7;
+	}
+
+	.flow-arrow svg {
+		width: 22px;
+		height: 22px;
+		animation: nudge 2s ease-in-out infinite;
+	}
+
+	@keyframes nudge {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(3px);
+		}
+	}
+
+	.net {
+		width: 100%;
+		max-width: 260px;
+		height: auto;
+	}
+
+	.net-edges line {
+		opacity: 0.35;
+		stroke-dasharray: 4 4;
+		animation: dash 6s linear infinite;
+	}
+
+	@keyframes dash {
+		to {
+			stroke-dashoffset: -40;
+		}
+	}
+
+	.net-nodes circle {
+		animation: pulse 2.4s ease-in-out infinite;
+		animation-delay: calc(var(--n, 0) * 0.25s);
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.6;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-2);
+	}
+
+	.chips span {
+		padding: 5px 11px;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-text-primary);
+		background: rgba(154, 130, 212, 0.14);
+		border: 1px solid var(--glass-border);
+		border-radius: 999px;
+	}
+
+	.no-cloud {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: var(--space-5);
+		padding: 8px 14px;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-text-muted);
+		background: var(--color-overlay);
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+	}
+
+	.no-cloud svg {
+		width: 18px;
+		height: 18px;
+		color: #f0a8a8;
+	}
+
+	/* ---------- Points ---------- */
+	.ai-points {
+		display: grid;
+		gap: var(--space-5);
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.ai-point {
+		padding: var(--space-6);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-lg);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+	}
+
+	.ai-point h3 {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-lg);
+		color: var(--color-text-primary);
+	}
+
+	.ai-point p {
+		margin: 0;
+	}
+
+	/* ---------- Privacy promise ---------- */
+	.promise {
+		padding: var(--space-8);
+		background: linear-gradient(
+			135deg,
+			rgba(127, 209, 184, 0.08),
+			rgba(154, 130, 212, 0.08)
+		);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-xl);
+	}
+
+	.promise-title {
+		margin: 0 0 var(--space-5);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-teal);
+		text-align: center;
+	}
+
+	.promise ul {
+		display: grid;
+		gap: var(--space-4);
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.promise li {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+		font-size: var(--text-base);
+		color: var(--color-text-primary);
+	}
+
+	.promise li svg {
+		flex-shrink: 0;
+		width: 22px;
+		height: 22px;
+		margin-top: 1px;
+		padding: 3px;
+		color: var(--color-teal);
+		background: rgba(127, 209, 184, 0.14);
+		border-radius: 50%;
+	}
+</style>

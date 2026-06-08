@@ -11,6 +11,20 @@ const {
 ---
 
 <section class="newsletter">
+	<svg
+		class="mail-bg"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.4"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		aria-hidden="true"
+		focusable="false">
+		<rect x="2" y="4" width="20" height="16" rx="2.5"></rect>
+		<path d="m3 6.5 9 6.5 9-6.5"></path>
+	</svg>
+
 	<div class="copy">
 		<h2>{heading}</h2>
 		<p>{pitch}</p>
@@ -92,6 +106,8 @@ const {
 
 <style>
 	.newsletter {
+		position: relative;
+		overflow: hidden;
 		display: grid;
 		gap: var(--space-6);
 		padding: var(--space-8);
@@ -100,11 +116,48 @@ const {
 		border-radius: var(--radius-lg);
 	}
 
+	/* Oversized envelope motif behind the content */
+	.mail-bg {
+		position: absolute;
+		right: -3%;
+		top: 50%;
+		width: clamp(220px, 42%, 460px);
+		height: auto;
+		transform: translateY(-50%) rotate(-8deg);
+		color: var(--color-accent-bright);
+		opacity: 0.1;
+		pointer-events: none;
+		z-index: 0;
+		animation: mail-drift 9s ease-in-out infinite;
+	}
+
+	@keyframes mail-drift {
+		0%,
+		100% {
+			transform: translateY(-50%) rotate(-8deg);
+		}
+		50% {
+			transform: translateY(calc(-50% - 10px)) rotate(-5deg);
+		}
+	}
+
+	.copy,
+	.form {
+		position: relative;
+		z-index: 1;
+	}
+
 	@media (min-width: 768px) {
 		.newsletter {
 			grid-template-columns: 1.1fr 1fr;
 			align-items: center;
 			gap: var(--space-8);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mail-bg {
+			animation: none;
 		}
 	}
 
