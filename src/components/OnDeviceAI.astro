@@ -23,6 +23,27 @@ const promises = [
 	'No third-party analytics on your sleep data',
 	'Open about exactly what syncs — and only when you choose',
 ];
+
+// Detected-event labels. SVG icons (Lucide-style) instead of emoji so they
+// stay crisp, theme-aware, and consistent with the rest of the site.
+const detected = [
+	{
+		label: 'Snore',
+		icon: '<path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 4v16"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>',
+	},
+	{
+		label: 'Sleep talk',
+		icon: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+	},
+	{
+		label: 'Cough',
+		icon: '<path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/>',
+	},
+	{
+		label: 'Movement',
+		icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+	},
+];
 ---
 
 <section class="ai container">
@@ -111,11 +132,17 @@ const promises = [
 
 			<p class="stage-label">Detected events</p>
 			<div class="chips">
-				<span>😴 Snore</span>
-				<span>💬 Sleep talk</span>
-				<span>🤧 Cough</span>
-				<span>🌙 Movement</span>
-			</div>
+					{
+						detected.map(({ label, icon }) => (
+							<span>
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+									set:html={icon} />
+								{label}
+							</span>
+						))
+					}
+				</div>
 		</div>
 
 		<div class="no-cloud">
@@ -352,13 +379,22 @@ const promises = [
 	}
 
 	.chips span {
-		padding: 5px 11px;
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		padding: 5px 12px;
 		font-size: var(--text-sm);
 		font-weight: 500;
 		color: var(--color-text-primary);
 		background: rgba(154, 130, 212, 0.14);
 		border: 1px solid var(--glass-border);
 		border-radius: 999px;
+	}
+
+	.chips span svg {
+		width: 15px;
+		height: 15px;
+		color: var(--color-accent-bright);
 	}
 
 	.no-cloud {

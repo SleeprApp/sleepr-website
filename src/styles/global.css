@@ -8,16 +8,9 @@
 
 html {
 	color-scheme: dark;
-	background: var(--color-background);
-}
-
-body {
-	margin: 0;
-	min-height: 100vh;
-	font-family: var(--font-sans);
-	font-size: var(--text-base);
-	line-height: var(--leading-normal);
-	color: var(--color-text-primary);
+	/* Base canvas + ambient glows live on <html> so they paint behind the
+	   fixed, negative-z atmosphere/starfield layers. (A background on <body>
+	   would paint ON TOP of negative-z children and hide them.) */
 	background:
 		radial-gradient(
 			1200px 800px at 50% -10%,
@@ -36,6 +29,16 @@ body {
 		),
 		var(--color-background);
 	background-attachment: fixed;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: var(--font-sans);
+	font-size: var(--text-base);
+	line-height: var(--leading-normal);
+	color: var(--color-text-primary);
+	background: transparent;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;

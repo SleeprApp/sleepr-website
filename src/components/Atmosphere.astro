@@ -1,0 +1,196 @@
+---
+// Ambient animated night-sky layers that sit behind all page content.
+// Pure CSS/SVG — no dependencies, no images, transform/opacity only so it
+// stays GPU-friendly. All motion is disabled under prefers-reduced-motion.
+//
+// Layering (both fixed, pointer-events:none, aria-hidden):
+//   .atmosphere.back  (z-index:-2)  drifting aurora/nebula blobs — depth
+//   .starfield        (z-index:-1)  existing twinkling stars (global.css)
+//   .atmosphere.front (z-index:-1)  floating dream-dust
+
+const blobs = [
+	{ cls: 'b1', dur: '26s', delay: '0s' },
+	{ cls: 'b2', dur: '32s', delay: '-7s' },
+	{ cls: 'b3', dur: '29s', delay: '-15s' },
+	{ cls: 'b4', dur: '24s', delay: '-4s' },
+];
+
+// Slow-rising motes scattered across the width.
+const particles = [
+	{ left: '6%', dur: '14s', delay: '0s', size: '5px', hue: 'violet' },
+	{ left: '15%', dur: '18s', delay: '-5s', size: '4px', hue: 'teal' },
+	{ left: '24%', dur: '13s', delay: '-3s', size: '6px', hue: 'violet' },
+	{ left: '33%', dur: '20s', delay: '-9s', size: '4px', hue: 'white' },
+	{ left: '42%', dur: '16s', delay: '-2s', size: '5px', hue: 'teal' },
+	{ left: '51%', dur: '19s', delay: '-12s', size: '4px', hue: 'violet' },
+	{ left: '60%', dur: '14s', delay: '-6s', size: '6px', hue: 'white' },
+	{ left: '69%', dur: '21s', delay: '-1s', size: '4px', hue: 'teal' },
+	{ left: '78%', dur: '15s', delay: '-8s', size: '5px', hue: 'violet' },
+	{ left: '87%', dur: '18s', delay: '-4s', size: '4px', hue: 'white' },
+	{ left: '95%', dur: '22s', delay: '-13s', size: '5px', hue: 'teal' },
+];
+---
+
+<div class="atmosphere back" aria-hidden="true">
+	{blobs.map(({ cls, dur, delay }) => (
+		<span class={`blob ${cls}`} style={`--dur:${dur};--delay:${delay}`} />
+	))}
+</div>
+
+<div class="atmosphere front" aria-hidden="true">
+	{particles.map(({ left, dur, delay, size, hue }) => (
+		<span
+			class={`particle ${hue}`}
+			style={`left:${left};--dur:${dur};--delay:${delay};--size:${size}`}
+		/>
+	))}
+</div>
+
+<style>
+	.atmosphere {
+		position: fixed;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.atmosphere.back {
+		z-index: -2;
+	}
+
+	.atmosphere.front {
+		z-index: -1;
+	}
+
+	/* ---------- Drifting aurora / nebula blobs ----------
+	   Brighter + more saturated than the base background gradients (especially
+	   the teal one) so they read as distinct, moving light rather than blending
+	   into the existing purple wash. */
+	.blob {
+		position: absolute;
+		border-radius: 50%;
+		filter: blur(55px);
+		opacity: 0.72;
+		will-change: transform;
+		animation: drift var(--dur) ease-in-out var(--delay) infinite alternate;
+	}
+
+	.b1 {
+		top: -8%;
+		left: -6%;
+		width: 42vw;
+		height: 42vw;
+		background: radial-gradient(
+			circle at 50% 50%,
+			rgba(165, 132, 240, 0.75),
+			transparent 68%
+		);
+	}
+
+	.b2 {
+		top: 24%;
+		right: -10%;
+		left: auto;
+		width: 46vw;
+		height: 46vw;
+		background: radial-gradient(
+			circle at 50% 50%,
+			rgba(118, 224, 196, 0.5),
+			transparent 68%
+		);
+	}
+
+	.b3 {
+		bottom: -16%;
+		left: 16%;
+		width: 48vw;
+		height: 48vw;
+		background: radial-gradient(
+			circle at 50% 50%,
+			rgba(120, 96, 214, 0.62),
+			transparent 68%
+		);
+	}
+
+	.b4 {
+		top: 50%;
+		left: 38%;
+		width: 30vw;
+		height: 30vw;
+		opacity: 0.5;
+		background: radial-gradient(
+			circle at 50% 50%,
+			rgba(240, 201, 104, 0.28),
+			transparent 70%
+		);
+	}
+
+	@keyframes drift {
+		0% {
+			transform: translate3d(0, 0, 0) scale(1);
+		}
+		50% {
+			transform: translate3d(7vw, -5vh, 0) scale(1.18);
+		}
+		100% {
+			transform: translate3d(-5vw, 6vh, 0) scale(0.94);
+		}
+	}
+
+	/* ---------- Floating dream-dust particles ---------- */
+	.particle {
+		position: absolute;
+		bottom: -6%;
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		opacity: 0;
+		will-change: transform, opacity;
+		animation: rise var(--dur) linear var(--delay) infinite;
+	}
+
+	.particle.violet {
+		background: rgba(176, 150, 235, 1);
+		box-shadow: 0 0 9px 2px rgba(154, 130, 212, 0.75);
+	}
+
+	.particle.teal {
+		background: rgba(140, 226, 202, 1);
+		box-shadow: 0 0 9px 2px rgba(127, 209, 184, 0.7);
+	}
+
+	.particle.white {
+		background: rgba(240, 234, 252, 1);
+		box-shadow: 0 0 9px 2px rgba(235, 228, 250, 0.65);
+	}
+
+	@keyframes rise {
+		0% {
+			opacity: 0;
+			transform: translate3d(0, 0, 0);
+		}
+		10% {
+			opacity: 1;
+		}
+		50% {
+			transform: translate3d(16px, -54vh, 0);
+		}
+		90% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			transform: translate3d(-12px, -108vh, 0);
+		}
+	}
+
+	/* Respect users who prefer reduced motion: freeze blobs, hide moving bits */
+	@media (prefers-reduced-motion: reduce) {
+		.blob {
+			animation: none;
+		}
+		.particle {
+			display: none;
+		}
+	}
+</style>

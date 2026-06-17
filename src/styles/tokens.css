@@ -69,8 +69,10 @@
 	--shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
 	--shadow-float: 0 40px 80px -24px rgba(0, 0, 0, 0.65);
 
-	/* Glass surfaces — translucent cards over the night sky */
-	--glass-bg: rgba(26, 23, 48, 0.55);
+	/* Glass surfaces — frosted cards that read as one consistent surface level
+	   above the animated atmosphere. Kept opaque enough that the drifting orbs
+	   don't bleed through unevenly (matches the solid --color-card surface). */
+	--glass-bg: rgba(26, 23, 48, 0.8);
 	--glass-border: rgba(154, 130, 212, 0.18);
 	--glass-blur: blur(16px);
 

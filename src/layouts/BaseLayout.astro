@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Atmosphere from '../components/Atmosphere.astro';
 
 interface Props {
 	title: string;
@@ -60,6 +61,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'htt
 		<meta name="theme-color" content="#0d0b1e" />
 	</head>
 	<body>
+		<Atmosphere />
 		<div class="starfield" aria-hidden="true"></div>
 		<a class="skip-link" href="#main">Skip to content</a>
 		<Nav />

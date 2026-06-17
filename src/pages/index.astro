@@ -4,9 +4,35 @@ import AppStoreBadge from '../components/AppStoreBadge.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 import OnDeviceAI from '../components/OnDeviceAI.astro';
 
+// Inline SVG path sets (Lucide-style, 24×24, stroke 1.7) used across the page.
+// Kept here so every icon shares one stroke language and theme-aware colour.
+const ic = {
+	cpu: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
+	cloudOff: '<path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.5 9 4.5 4.5 0 0 0 6 18"/><line x1="4" y1="3.5" x2="20.5" y2="20.5"/>',
+	userCheck: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
+	download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+	shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+	audio: '<path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 4v16"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>',
+	sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4"/><path d="M3 5h4"/><path d="M19 17v4"/><path d="M17 19h4"/>',
+	trending: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+	bars: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+	check: '<path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/>',
+	alarm: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.4 18.7 4 21"/><path d="M17.6 18.7 20 21"/>',
+	moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+	chevron: '<path d="m6 9 6 6 6-6"/>',
+};
+
+const proof = [
+	{ label: 'On-device AI', icon: ic.cpu },
+	{ label: 'No audio uploads', icon: ic.cloudOff },
+	{ label: 'No account needed', icon: ic.userCheck },
+	{ label: 'Free to download', icon: ic.download },
+];
+
 const showcases = [
 	{
 		tag: 'Sleep stages',
+		icon: ic.bars,
 		title: 'See every stage of your night',
 		body: 'A clear timeline of Awake, REM, Light, and Deep — alongside your sleep score, time asleep, and efficiency. Understand your nightly patterns and wake up refreshed.',
 		image: '/img/track-stages.jpg',
@@ -15,6 +41,7 @@ const showcases = [
 	},
 	{
 		tag: 'Sleep recordings',
+		icon: ic.audio,
 		title: 'Hear what happens while you sleep',
 		body: 'Sleepr listens on-device and surfaces the moments that matter — snore clips, sleep talking, and quiet nights. Replay the night events and discover what you never knew.',
 		image: '/img/snoring.jpg',
@@ -23,6 +50,7 @@ const showcases = [
 	},
 	{
 		tag: 'Daily routine',
+		icon: ic.check,
 		title: 'Build better habits, one night at a time',
 		body: 'Small, science-backed habits add up. Track caffeine cut-offs, morning sunlight, screen-free wind-downs, and a consistent bedtime — then watch your streak grow.',
 		image: '/img/routine.jpg',
@@ -31,6 +59,7 @@ const showcases = [
 	},
 	{
 		tag: 'Smart alarm',
+		icon: ic.alarm,
 		title: 'Wake up at the right moment',
 		body: 'Set a smart wake window and Sleepr nudges you awake during a lighter phase of your cycle — so mornings feel gentle instead of jarring.',
 		image: '/img/smart-alarm.jpg',
@@ -41,20 +70,52 @@ const showcases = [
 
 const features = [
 	{
+		icon: ic.shield,
 		title: 'Private by design',
 		body: 'On-device microphone analysis. Audio is processed in real time on your iPhone and never uploaded to any server.',
 	},
 	{
+		icon: ic.audio,
 		title: 'Smart event detection',
 		body: 'Detects snoring, talking, coughs, and movement throughout the night — without sending audio anywhere.',
 	},
 	{
+		icon: ic.sparkles,
 		title: 'Somnus, your AI sleep coach',
 		body: 'Chat with an AI coach that understands your patterns and helps you build better habits, night after night.',
 	},
 	{
+		icon: ic.trending,
 		title: 'Trends, streaks & friends',
 		body: 'Watch sleep trends across weeks, months, and years. Climb leagues with friends as your streak grows.',
+	},
+];
+
+// App-style stat cards — echoing the in-app overview screen. Every figure is a
+// factual property of how Sleepr works, not a review or rating claim.
+const stats = [
+	{ n: '100%', label: 'Analysis on your device', pill: 'Private', icon: ic.cpu },
+	{ n: '0', label: 'Audio files ever uploaded', pill: 'Always', icon: ic.cloudOff },
+	{ n: 'Free', label: 'To download & start tracking', pill: 'No account', icon: ic.download },
+	{ n: 'Pro', label: 'AI coach & advanced trends', pill: 'Optional', icon: ic.sparkles },
+];
+
+const faqs = [
+	{
+		q: 'Is my audio really private?',
+		a: 'Yes. All microphone analysis happens on-device in real time. The audio stream is classified and immediately discarded — there is no recording to upload, leak, or subpoena. Only the labelled summary you see is kept.',
+	},
+	{
+		q: 'Does Sleepr work without internet?',
+		a: "Yes. Tracking and on-device detection run entirely on your iPhone's Neural Engine, so it keeps working even in airplane mode. Only the sleep summary you choose to sync ever uses the network.",
+	},
+	{
+		q: 'Do I need an Apple Watch?',
+		a: "No wearable required. Sleepr uses your iPhone's microphone and motion sensors — just place your phone near your bed before you sleep.",
+	},
+	{
+		q: 'Is Sleepr free?',
+		a: 'Sleepr is free to download and track your sleep. Sleepr Pro unlocks the Somnus AI coach and advanced long-term trends.',
 	},
 ];
 ---
@@ -62,7 +123,12 @@ const features = [
 <BaseLayout title="Sleepr — privacy-first AI sleep tracking">
 	<section class="hero container">
 		<div class="hero-copy reveal">
-			<p class="eyebrow">For iPhone · Private by design</p>
+			<p class="eyebrow">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+					aria-hidden="true" set:html={ic.moon} />
+				For iPhone · Private by design
+			</p>
 			<h1 class="display">
 				Sleep better.<br />
 				<span class="accent">Privately.</span>
@@ -72,13 +138,20 @@ const features = [
 				your phone — and you wake up with a clearer picture of how you slept.
 			</p>
 			<div class="cta-row">
-				<AppStoreBadge size="lg" />
+				<AppStoreBadge size="lg" campaign="website_hero" />
 				<a class="secondary" href="#features">See what it does ↓</a>
 			</div>
-			<ul class="hero-trust">
-				<li>On-device AI</li>
-				<li>No audio uploads</li>
-				<li>Free to download</li>
+			<ul class="proof">
+				{
+					proof.map(({ label, icon }) => (
+						<li>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+								stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+								aria-hidden="true" set:html={icon} />
+							{label}
+						</li>
+					))
+				}
 			</ul>
 		</div>
 
@@ -96,8 +169,16 @@ const features = [
 	</section>
 
 	<section class="showcases container" id="features">
+		<div class="section-head reveal">
+			<p class="kicker">What Sleepr does</p>
+			<h2 class="section-title display">Everything you need for better nights</h2>
+			<p class="section-sub">
+				Four screens, one calm picture of your sleep — built around what
+				actually happens while you rest.
+			</p>
+		</div>
 		{
-			showcases.map(({ tag, title, body, image, alt, reverse }) => (
+			showcases.map(({ tag, icon, title, body, image, alt, reverse }) => (
 				<article class={`showcase reveal ${reverse ? 'is-reverse' : ''}`}>
 					<div class="showcase-art">
 						<div class="frame-glow" aria-hidden="true" />
@@ -111,8 +192,13 @@ const features = [
 						/>
 					</div>
 					<div class="showcase-copy">
-						<p class="usp-tag">{tag}</p>
-						<h2 class="display">{title}</h2>
+						<p class="tag">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+								stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+								aria-hidden="true" set:html={icon} />
+							{tag}
+						</p>
+						<h3 class="display">{title}</h3>
 						<p>{body}</p>
 					</div>
 				</article>
@@ -138,15 +224,70 @@ const features = [
 		</div>
 	</section>
 
+	<section class="stats container">
+		<div class="section-head reveal">
+			<p class="kicker">Private by design, by the numbers</p>
+			<h2 class="section-title display">Built around your privacy</h2>
+		</div>
+		<div class="stat-grid">
+			{
+				stats.map(({ n, label, pill, icon }, i) => (
+					<article class="stat reveal" style={`--reveal-delay: ${i * 70}ms`}>
+						<div class="stat-top">
+							<span class="stat-ico">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+									aria-hidden="true" set:html={icon} />
+							</span>
+							<span class="stat-pill">{pill}</span>
+						</div>
+						<p class="stat-n">{n}</p>
+						<p class="stat-label">{label}</p>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
 	<section class="features container">
-		<h2 class="section-title display reveal">Built for better nights</h2>
+		<div class="section-head reveal">
+			<p class="kicker">Why people switch</p>
+			<h2 class="section-title display">Built for better nights</h2>
+		</div>
 		<div class="grid">
 			{
-				features.map(({ title, body }, i) => (
+				features.map(({ icon, title, body }, i) => (
 					<article class="card reveal" style={`--reveal-delay: ${i * 80}ms`}>
+						<span class="card-ico">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+								stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+								aria-hidden="true" set:html={icon} />
+						</span>
 						<h3>{title}</h3>
 						<p>{body}</p>
 					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="faq container">
+		<div class="section-head reveal">
+			<p class="kicker">Good to know</p>
+			<h2 class="section-title display">Questions, answered</h2>
+		</div>
+		<div class="faq-list">
+			{
+				faqs.map(({ q, a }, i) => (
+					<details class="faq-item reveal" style={`--reveal-delay: ${i * 60}ms`}>
+						<summary>
+							{q}
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+								stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+								aria-hidden="true" set:html={ic.chevron} />
+						</summary>
+						<p>{a}</p>
+					</details>
 				))
 			}
 		</div>
@@ -164,7 +305,7 @@ const features = [
 					Free to download. Sleepr Pro unlocks the AI coach and advanced
 					trends.
 				</p>
-				<AppStoreBadge size="lg" />
+				<AppStoreBadge size="lg" campaign="website_download" />
 			</div>
 			<div class="download-art" aria-hidden="true">
 				<div class="phone-glow"></div>
@@ -182,6 +323,34 @@ const features = [
 </BaseLayout>
 
 <style>
+	/* ---------- Shared section header ---------- */
+	.section-head {
+		max-width: 44rem;
+		margin: 0 auto var(--space-8);
+		text-align: center;
+	}
+
+	.kicker {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-teal);
+	}
+
+	.section-title {
+		font-size: clamp(1.9rem, 4vw, 2.85rem);
+		margin: 0;
+	}
+
+	.section-sub {
+		margin: var(--space-4) auto 0;
+		max-width: 36rem;
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+	}
+
 	/* ---------- Hero ---------- */
 	.hero {
 		display: grid;
@@ -199,12 +368,26 @@ const features = [
 	}
 
 	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 		margin: 0 0 var(--space-4);
+		padding: 6px 14px;
 		font-size: var(--text-sm);
 		font-weight: 600;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
+		letter-spacing: 0.04em;
 		color: var(--color-accent-bright);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: 999px;
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+	}
+
+	.eyebrow svg {
+		width: 16px;
+		height: 16px;
+		color: var(--color-gold);
 	}
 
 	.hero h1 {
@@ -247,33 +430,36 @@ const features = [
 		color: var(--color-text-primary);
 	}
 
-	.hero-trust {
+	/* Hero proof chips — glass pills with consistent SVG icons */
+	.proof {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-2) var(--space-5);
+		gap: var(--space-3);
 		margin: var(--space-6) 0 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.hero-trust li {
-		position: relative;
-		padding-left: var(--space-4);
+	.proof li {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 7px 13px;
 		font-size: var(--text-sm);
+		font-weight: 500;
 		color: var(--color-text-muted);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: 999px;
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
 	}
 
-	.hero-trust li::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: var(--color-teal);
-		box-shadow: 0 0 8px var(--color-teal);
+	.proof svg {
+		width: 16px;
+		height: 16px;
+		color: var(--color-teal);
+		flex-shrink: 0;
 	}
 
 	/* ---------- Phone art ---------- */
@@ -380,8 +566,11 @@ const features = [
 		filter: blur(36px);
 	}
 
-	.showcase-copy h2 {
+	.showcase-copy h3 {
 		font-size: clamp(1.9rem, 4vw, 2.85rem);
+		font-weight: 600;
+		line-height: 1.04;
+		letter-spacing: -0.01em;
 		margin-bottom: var(--space-4);
 	}
 
@@ -392,6 +581,25 @@ const features = [
 		max-width: 34rem;
 	}
 
+	/* Icon-tagged section label (showcases) */
+	.tag {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-teal);
+	}
+
+	.tag svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	/* ---------- USP band ---------- */
 	.usp-tag {
 		margin: 0 0 var(--space-3);
 		font-size: var(--text-sm);
@@ -401,7 +609,6 @@ const features = [
 		color: var(--color-teal);
 	}
 
-	/* ---------- USP band ---------- */
 	.usp {
 		padding-block: var(--space-8);
 	}
@@ -429,13 +636,88 @@ const features = [
 		margin: 0;
 	}
 
-	/* ---------- Features grid ---------- */
-	.section-title {
-		text-align: center;
-		font-size: clamp(1.9rem, 4vw, 2.75rem);
-		margin-bottom: var(--space-8);
+	/* ---------- Stats band (app-style cards) ---------- */
+	.stats {
+		padding-block: var(--space-10);
 	}
 
+	.stat-grid {
+		display: grid;
+		gap: var(--space-4);
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	}
+
+	.stat {
+		display: grid;
+		gap: var(--space-2);
+		padding: var(--space-6);
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-lg);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+		transition:
+			transform 220ms var(--ease-out),
+			border-color 220ms ease,
+			box-shadow 220ms ease;
+	}
+
+	.stat:hover {
+		transform: translateY(-4px);
+		border-color: rgba(154, 130, 212, 0.45);
+		box-shadow: var(--shadow-card);
+	}
+
+	.stat-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+		margin-bottom: var(--space-2);
+	}
+
+	.stat-ico {
+		display: grid;
+		place-items: center;
+		width: 40px;
+		height: 40px;
+		color: var(--color-accent-bright);
+		background: rgba(154, 130, 212, 0.14);
+		border: 1px solid var(--glass-border);
+		border-radius: 12px;
+	}
+
+	.stat-ico svg {
+		width: 21px;
+		height: 21px;
+	}
+
+	.stat-pill {
+		font-size: var(--text-xs);
+		font-weight: 600;
+		color: var(--color-teal);
+		background: rgba(127, 209, 184, 0.12);
+		border: 1px solid rgba(127, 209, 184, 0.3);
+		padding: 3px 10px;
+		border-radius: 999px;
+	}
+
+	.stat-n {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		line-height: 1;
+		color: var(--color-text-primary);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat-label {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	/* ---------- Features grid ---------- */
 	.features {
 		padding-block: var(--space-10);
 	}
@@ -465,6 +747,27 @@ const features = [
 		box-shadow: var(--shadow-card);
 	}
 
+	.card-ico {
+		display: grid;
+		place-items: center;
+		width: 46px;
+		height: 46px;
+		margin-bottom: var(--space-4);
+		color: var(--color-accent-bright);
+		background: linear-gradient(
+			135deg,
+			rgba(154, 130, 212, 0.2),
+			rgba(127, 209, 184, 0.12)
+		);
+		border: 1px solid var(--glass-border);
+		border-radius: 13px;
+	}
+
+	.card-ico svg {
+		width: 23px;
+		height: 23px;
+	}
+
 	.card h3 {
 		margin-bottom: var(--space-2);
 		color: var(--color-text-primary);
@@ -472,6 +775,73 @@ const features = [
 
 	.card p {
 		margin: 0;
+	}
+
+	/* ---------- FAQ ---------- */
+	.faq {
+		padding-block: var(--space-10);
+	}
+
+	.faq-list {
+		max-width: 760px;
+		margin-inline: auto;
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.faq-item {
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-md);
+		backdrop-filter: var(--glass-blur);
+		-webkit-backdrop-filter: var(--glass-blur);
+		transition: border-color 200ms ease;
+	}
+
+	.faq-item[open] {
+		border-color: rgba(154, 130, 212, 0.45);
+	}
+
+	.faq-item summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-5);
+		cursor: pointer;
+		font-weight: 600;
+		font-size: var(--text-lg);
+		color: var(--color-text-primary);
+		list-style: none;
+	}
+
+	.faq-item summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq-item summary:focus-visible {
+		outline: 2px solid var(--color-accent-bright);
+		outline-offset: 2px;
+		border-radius: var(--radius-md);
+	}
+
+	.faq-item summary svg {
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		color: var(--color-accent-bright);
+		transition: transform 240ms var(--ease-out);
+	}
+
+	.faq-item[open] summary svg {
+		transform: rotate(180deg);
+	}
+
+	.faq-item p {
+		margin: 0;
+		padding: 0 var(--space-5) var(--space-5);
+		color: var(--color-text-muted);
+		max-width: 65ch;
 	}
 
 	/* ---------- Signup + download ---------- */
