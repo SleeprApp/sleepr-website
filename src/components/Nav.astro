@@ -1,4 +1,6 @@
 ---
+import { appStoreUrl } from '../lib/appStore';
+
 const { pathname } = Astro.url;
 const isHome = pathname === '/' || pathname === '';
 ---
@@ -24,10 +26,9 @@ const isHome = pathname === '/' || pathname === '';
 				<li><a href="/terms">Terms</a></li>
 			</ul>
 		</nav>
-		<a
-			class="nav-cta"
-			href="https://apps.apple.com/app/sleepr-ai-sleep-tracker/id6764422192"
-			rel="noopener">Get the app</a>
+		<a class="nav-cta" href={appStoreUrl('website_nav')} rel="noopener">
+			Get the app
+		</a>
 	</div>
 </header>
 

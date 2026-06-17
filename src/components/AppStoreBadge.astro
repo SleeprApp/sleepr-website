@@ -1,16 +1,17 @@
 ---
+import { appStoreUrl, type Campaign } from '../lib/appStore';
+
 interface Props {
 	href?: string;
 	size?: 'md' | 'lg';
+	campaign?: Campaign;
 }
 
-const {
-	href = 'https://apps.apple.com/app/sleepr-ai-sleep-tracker/id6764422192',
-	size = 'lg',
-} = Astro.props;
+const { href, size = 'lg', campaign = 'website_hero' } = Astro.props;
+const link = href ?? appStoreUrl(campaign);
 ---
 
-<a class={`app-store-badge size-${size}`} href={href} rel="noopener">
+<a class={`app-store-badge size-${size}`} href={link} rel="noopener">
 	<svg
 		class="apple-logo"
 		viewBox="0 0 24 24"

@@ -1,4 +1,6 @@
 ---
+import { appStoreUrl } from '../lib/appStore';
+
 const year = new Date().getFullYear();
 ---
 
@@ -20,9 +22,8 @@ const year = new Date().getFullYear();
 				<ul>
 					<li><a href="/">Home</a></li>
 					<li>
-						<a
-							href="https://apps.apple.com/app/sleepr-ai-sleep-tracker/id6764422192"
-							rel="noopener">App Store</a>
+						<a href={appStoreUrl('website_footer')} rel="noopener"
+							>App Store</a>
 					</li>
 				</ul>
 			</div>
